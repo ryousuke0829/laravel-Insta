@@ -14,7 +14,7 @@
     <span class="fw-bold">Hello {{ $name }}</span>
     <p>Thank you for registration</p>
     <br>
-    <p>To start, please access the website <a href="{{ $app_url }}" class="btn btn-primary">here</a></p>
+    <p>To start, please access the website. <a href="{{ $app_url }}" class="btn btn-primary">here</a></p>
     <br>
     <p>If you did not sign up to this account, you can ignore this email.</p>
     <p>Best regards,</p>
