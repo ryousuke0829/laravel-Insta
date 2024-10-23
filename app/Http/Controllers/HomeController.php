@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Follow;
 
 class HomeController extends Controller
 {   
@@ -36,6 +37,18 @@ class HomeController extends Controller
         return view('users.home')
             ->with('home_posts', $home_posts)
             ->with('suggested_users',$suggested_users);
+    }
+    
+    /**
+     * See All
+     */
+    public function seeAll()
+    {   
+        $suggested_users = $this->getAllSuggestedUsers();
+        $recommend_users = $this->getAllFollowedUnfollowingUsers();
+        return view('users.seeall')
+            ->with('suggested_users',$suggested_users)
+            ->with('recommend_users', $recommend_users);
     }
 
     /**
@@ -80,6 +93,44 @@ class HomeController extends Controller
         return array_slice($suggested_users, 0, 4);
         # array_slice(x, y, z)
         # x: 対象の配列、y: 開始インデックス、z: 取得する要素数
+    }
+
+    // private function getAllSuggestedUsers() {
+    //     $all_users = $this->user->all()->except(Auth::user()->id);
+    
+    //     $suggested_users = [];
+    
+    //     foreach ($all_users as $user) {
+    //         if (!$user->isFollowed()) {
+    //             $suggested_users[] = $user;
+    //         }
+    //     }
+
+    //     return collect($suggested_users)->paginate(6);
+    // }
+    private function getAllSuggestedUsers() {
+        return $this->user->where('id', '!=', Auth::user()->id)
+                        ->whereDoesntHave('followers', function($query) {
+                            $query->where('follower_id', Auth::user()->id);
+                        })
+                        ->paginate(6);
+    }
+    
+
+    
+
+    private function getAllFollowedUnfollowingUsers() {
+        $all_users = $this->user->all()->except(Auth::user()->id);
+    
+        $recommend_users = [];
+    
+        foreach ($all_users as $user) {
+            if (!$user->isFollowed() && $user->isFollowing()) {
+                $recommend_users[] = $user;
+            }
+        }
+
+        return $recommend_users;
     }
 
     /**

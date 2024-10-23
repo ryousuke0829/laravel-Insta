@@ -41,6 +41,7 @@ class Post extends Model
         return $this->hasMany(Like::class);
         //This post has many Like
     }
+    
     /**
      * Return True if the Authe User already like hte post
      */

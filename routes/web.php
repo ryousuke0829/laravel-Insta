@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controllers for admin users
@@ -24,6 +25,7 @@ Auth::routes();
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/', [HomeController::class, 'index'])->name('index'); 
     Route::get('/people', [HomeController::class, 'search'])->name('search'); 
+    Route::get('/seeAll', [HomeController::class, 'seeAll'])->name('seeAll'); 
 
     //Posts
     Route::get('/post/create', [PostController::class,'create'])->name('post.create');      
@@ -35,7 +37,7 @@ Route::group(['middleware'=>'auth'], function(){
     
     //Comments
     Route::post('/comment/{post_id}/store', [CommentController::class,'store'])->name('comment.store'); 
-    Route::delete('/comment/{comment_id}/destroy', [commentController::class,'destroy'])->name('comment.destroy');
+    Route::delete('/comment/{comment_id}/destroy', [CommentController::class,'destroy'])->name('comment.destroy');
 
     //Profiles
     Route::get('/profile/{user_id}/show', [ProfileController::class,'show'])->name('profile.show'); 
@@ -43,6 +45,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/profile/{user_id}/following', [ProfileController::class,'following'])->name('profile.following'); 
     Route::get('/profile/edit', [ProfileController::class,'edit'])->name('profile.edit'); 
     Route::patch('/profile/update/{id}', [ProfileController::class,'update'])->name('profile.update'); 
+    Route::patch('/profile/updatepass/{id}', [ProfileController::class,'updatepass'])->name('profile.updatepass'); 
 
     //Likes
     Route::post('/like/{post_id}/store', [LikeController::class,'store'])->name('like.store'); 

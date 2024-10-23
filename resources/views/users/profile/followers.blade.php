@@ -29,7 +29,20 @@
                         </div>
 
                         <div class="col-auto text-end">
-                            @if ($follower->follower->id != Auth::user()->id)
+                            {{-- @if ($follower->follower->id != Auth::user()->id)
+                                <form action="{{route('follow.destroy', $follower->follower->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="border-0 bg-transparent p-0 text-secondary btn-sm">Followig</button>
+                                </form>
+                            @else
+                                <form action="{{route('follow.store',$follower->follower->id)}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="border-0 bg-transparent p-0 text-primary btn-sm">Follow</button>
+                                </form>
+                            @endif --}}
+                        @if ($follower->follower->id != Auth::user()->id)
+                            @if ($follower->follower->isFollowed())
                                 <form action="{{route('follow.destroy', $follower->follower->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
@@ -41,6 +54,7 @@
                                     <button type="submit" class="border-0 bg-transparent p-0 text-primary btn-sm">Follow</button>
                                 </form>
                             @endif
+                        @endif
                         </div>
                     </div>
                 @endforeach

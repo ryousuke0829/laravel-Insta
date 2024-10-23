@@ -10,7 +10,7 @@
     <div class="row align-items-center">
         <div class="col-auto">
             @if ($post->isLiked())
-                <form action="#" method="post">
+                <form action="{{route('like.delete',$post->id)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-sm shadow-none p-0">
@@ -27,7 +27,10 @@
             @endif
         </div>
         <div class="col-auto px-0">
-            <span>{{$post->likes->count()}}</span>
+            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#wholike-post-{{$post->id}}">
+                <span class="fw-bold">{{$post->likes->count()}}</span>
+            </button>
+            @include('users.posts.contents.modals.wholike')
         </div>
         <div class="col text-end">
             {{-- lists of catefories of specific here --}}

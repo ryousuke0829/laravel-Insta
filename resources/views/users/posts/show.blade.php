@@ -94,10 +94,12 @@
                                     </button>
                                 </form>
                                 @endif
-
                             </div>
                             <div class="col-auto px-0">
-                                <span>{{$post->likes->count()}}</span>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#wholike-post-{{$post->id}}">
+                                    <span class="fw-bold">{{$post->likes->count()}}</span>
+                                </button>
+                                @include('users.posts.contents.modals.wholike')
                             </div>
                             <div class="col text-end">
                                 {{-- lists of catefories of specific here --}}

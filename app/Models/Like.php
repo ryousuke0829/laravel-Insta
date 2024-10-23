@@ -10,4 +10,9 @@ class Like extends Model
     use HasFactory;
 
     public $timestamps =false;//タイムスタンプの設定消した時に必須
+
+    public function user()
+    {
+    return $this->belongsTo(User::class);
+    }
 }
